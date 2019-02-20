@@ -23,3 +23,6 @@
 
 欢迎猿友们指点
 
+地址：http：//www.xiaodongzixue.cn：8080 / forrun / section / main
+账号：admin
+密码：123456

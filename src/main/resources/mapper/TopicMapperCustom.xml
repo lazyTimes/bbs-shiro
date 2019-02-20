@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxd.forrun.mapper.TopicMapperCustom">
+    <resultMap id="BaseResultMap" type="com.zxd.forrun.pojo.po.TopicCus">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="section_id" jdbcType="INTEGER" property="sectionId" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="lastpost_id" jdbcType="INTEGER" property="lastpostId" />
+        <result column="author" jdbcType="INTEGER" property="author" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="ipaddr" jdbcType="VARCHAR" property="ipaddr" />
+        <result column="post_count" jdbcType="INTEGER" property="postCount" />
+        <result column="create_date" jdbcType="DATE" property="createDate" />
+        <result column="last_update" jdbcType="DATE" property="lastUpdate" />
+
+    </resultMap>
+    <select id="getTopicCusList" resultType="com.zxd.forrun.pojo.po.TopicCus">
+        SELECT
+        topic.type ,
+        topic.title,
+        topic.content,
+        topic.create_date 'createDate',
+        USER .username,
+
+        topic.id,
+        topic.post_count 'postCount',
+        topic.section_id 'sectionId',
+        topic.last_update 'lastUpdate',
+        topic.orderId 'orderId'
+
+        FROM
+            topic topic
+        JOIN topic_category topic_category ON topic.type = topic_category.id
+        JOIN user USER ON USER .id = topic.author
+        <where>
+            <if test="sectionId != null">
+                topic.section_id = #{sectionId}
+            </if>
+            <if test="categoryId != null">
+                AND topic_category.id = #{categoryId}
+            </if>
+        </where>
+        ORDER BY (CASE topic.orderId WHEN 2 THEN 2 ELSE 0 END) DESC, topic.last_update DESC
+    </select>
+
+    <select id="getTopicRowCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM topic t
+    </select>
+
+    <select id="getGeneralId" resultType="java.lang.Integer">
+        SELECT MAX(id) FROM topic
+    </select>
+
+    <select id="getCustomTopics" resultType="com.zxd.forrun.pojo.po.TopicCusAll">
+        SELECT
+            sec.section_name 'sectionName',
+            top.id,
+            top.section_id 'sectionId',
+            top.lastpost_id 'lastpostId',
+            top.title,
+            top.content,
+            top.post_count 'postCount',
+            top.ipaddr,
+            top.create_date 'createDate',
+            top.last_update 'lastUpdate',
+            top.orderId,
+	        top.author
+
+        FROM
+            topic top
+        JOIN section sec ON top.section_id = sec.id
+        ORDER BY (CASE top.orderId WHEN 2 THEN 2 ELSE 0 END) DESC, top.last_update DESC
+    </select>
+</mapper>

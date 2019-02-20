@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxd.forrun.mapper.PostMapperCustom">
+    <resultMap id="BaseResultMap" type="com.zxd.forrun.pojo.po.PostCus">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="topic_id" jdbcType="INTEGER" property="topicId" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="author" jdbcType="INTEGER" property="author" />
+        <result column="create_date" jdbcType="DATE" property="createDate" />
+        <result column="last_update" jdbcType="DATE" property="lastUpdate" />
+        <result column="ipaddr" jdbcType="VARCHAR" property="ipaddr" />
+        <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+        <result column="click" jdbcType="INTEGER" property="click" />
+    </resultMap>
+
+    <select id="getPostList" resultType="com.zxd.forrun.pojo.po.PostCus">
+        SELECT
+            u.username 'user.username',
+            u.nickname 'user.nickname',
+            u.gender 'user.gender',
+            u.address 'user.address',
+            u.last_logintime 'user.lastLogintime',
+            p.id,
+            p.click,
+            p.title,
+            p.content,
+            p.create_date 'createDate',
+            p.parent_id,
+            p.last_update 'lastUpdate',
+            p.author,
+            p.topic_id 'topicId'
+        FROM
+            topic t
+        LEFT JOIN post p ON p.topic_id = t.id
+        LEFT JOIN user u ON u.id = p.author
+        <where>
+            <if test="topicId != null">
+                p.parent_id IS NULL
+                AND
+                p.topic_id = #{topicId,jdbcType=INTEGER}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="getLastPostCusList" resultType="com.zxd.forrun.pojo.po.PostCus">
+      SELECT
+            u.username 'user.username',
+            p.click,
+            p.content,
+            p.last_update 'lastUpdate',
+            p.title
+        FROM
+            post p
+        JOIN user u ON p.author = u.id
+        WHERE
+            p.parent_id IS NULL
+        ORDER BY
+            p.last_update DESC
+    </select>
+</mapper>

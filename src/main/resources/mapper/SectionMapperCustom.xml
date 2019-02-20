@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxd.forrun.mapper.SectionMapperCustom">
+    <resultMap id="BaseResultMap" type="com.zxd.forrun.pojo.po.SectionCus">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="section_name" jdbcType="VARCHAR" property="sectionName" />
+        <result column="author" jdbcType="INTEGER" property="author" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="topic_count" jdbcType="INTEGER" property="topicCount" />
+        <result column="all_count" jdbcType="INTEGER" property="allCount" />
+        <result column="orderid" jdbcType="INTEGER" property="orderid" />
+        <result column="topic_lastupdate" jdbcType="DATE" property="topicLastupdate" />
+        <result column="parent" jdbcType="INTEGER" property="parent" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+    </resultMap>
+
+    <select id="getSectionCus" resultMap="BaseResultMap">
+        SELECT a.*,b.username
+        FROM section a
+        LEFT JOIN user b ON a.author=b.id;
+    </select>
+
+    <select id="getGeneral" resultType="java.lang.Integer">
+        SELECT MAX(id) FROM section
+    </select>
+</mapper>

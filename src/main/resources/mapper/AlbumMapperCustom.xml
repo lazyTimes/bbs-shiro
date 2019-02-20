@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxd.forrun.mapper.AlbumMapperCustom">
+
+    <select id="getNowAlbumId" resultType="java.lang.Integer">
+        SELECT MAX(id) FROM album
+    </select>
+
+    <insert id="insertPhotoAsList" parameterType="com.zxd.forrun.pojo.Photo">
+
+        <foreach collection="photos" separator=";" item="pho">
+            INSERT INTO photo (
+            user_id,
+            album_id,
+            url,
+            title,
+            introduce,
+            create_date
+            )
+            VALUES
+            (
+            #{pho.userId}, #{pho.albumId}, #{pho.url}, #{pho.title}, #{pho.introduce}, #{pho.createDate})
+        </foreach>
+        ;
+    </insert>
+</mapper>

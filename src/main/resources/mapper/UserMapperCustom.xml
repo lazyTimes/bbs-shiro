@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxd.forrun.mapper.UserMapperCustom">
+
+    <!--<resultMap id="BaseResultMap" type="com.zxd.forrun.pojo.User">-->
+        <!--<id column="id" jdbcType="INTEGER" property="id" />-->
+        <!--<result column="username" jdbcType="VARCHAR" property="username" />-->
+        <!--<result column="password" jdbcType="VARCHAR" property="password" />-->
+        <!--<result column="nickname" jdbcType="VARCHAR" property="nickname" />-->
+        <!--<result column="gender" jdbcType="INTEGER" property="gender" />-->
+        <!--<result column="email" jdbcType="VARCHAR" property="email" />-->
+        <!--<result column="telephone" jdbcType="VARCHAR" property="telephone" />-->
+        <!--<result column="face" jdbcType="VARCHAR" property="face" />-->
+        <!--<result column="address" jdbcType="VARCHAR" property="address" />-->
+        <!--<result column="qq_number" jdbcType="VARCHAR" property="qqNumber" />-->
+        <!--<result column="question" jdbcType="VARCHAR" property="question" />-->
+        <!--<result column="answer" jdbcType="VARCHAR" property="answer" />-->
+        <!--<result column="register_date" jdbcType="DATE" property="registerDate" />-->
+        <!--<result column="last_logintime" jdbcType="DATE" property="lastLogintime" />-->
+    <!--</resultMap>-->
+
+    <select id="findRoles" resultType="string" >
+        SELECT c.role_name
+         FROM user a
+         JOIN user_role b
+         ON a.id=b.user_id
+         JOIN role c
+         ON c.id=b.rid
+         where a.username=#{name}
+
+    </select>
+
+    <!--查询用户对应的所有-->
+    <select id="findPermissions" resultType="string" parameterType="string">
+        SELECT e.url
+         FROM user a
+         JOIN user_role b ON a.id=b.user_id
+         JOIN role c ON c.id=b.rid
+         JOIN permission_role d ON d.rid = c.id
+         JOIN permission e ON e.id=d.pid
+         where a.username=#{rname}
+
+    </select>
+
+    <!--根据角色名称查找所有的权限-->
+    <select id="findPermissionsByRole" resultType="string" parameterType="string">
+        SELECT url FROM role r
+        JOIN permission_role pr on pr.rid=r.id
+        JOIN permission pm ON pm.id=pr.pid
+        WHERE r.role_name=#{rolename}
+
+    </select>
+
+
+</mapper>

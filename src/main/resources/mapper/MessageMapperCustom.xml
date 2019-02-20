@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxd.forrun.mapper.MessageMapperCustom">
+    <resultMap id="BaseResultMap" type="com.zxd.forrun.pojo.po.MessageCus">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="send_id" jdbcType="INTEGER" property="sendId" />
+        <result column="rec_id" jdbcType="INTEGER" property="recId" />
+        <result column="send_time" jdbcType="DATE" property="sendTime" />
+        <result column="send_state" jdbcType="INTEGER" property="sendState" />
+    </resultMap>
+
+    <select id="getMessageCusList" parameterType="java.lang.Integer" resultType="com.zxd.forrun.pojo.po.MessageCus">
+        SELECT
+            (
+                SELECT
+                    tp.username
+                FROM
+                    user tp
+                WHERE
+                    tp.id = m.rec_id
+            ) 'sendName',
+            m.id,
+            m.send_time 'sendTime',
+            m.send_state 'sendState',
+            m.content,
+            m.rec_id 'recId',
+            m.send_id 'sendId'
+        FROM
+            message m
+        JOIN user u ON u.id = m.rec_id
+        WHERE m.rec_id=#{receiveId}
+        ORDER BY
+            m.send_time
+
+    </select>
+</mapper>

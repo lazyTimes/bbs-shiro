@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<context id="MyBatis3Simple" targetRuntime="MyBatis3"
+		defaultModelType="flat">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/myforrun?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false"
+			userId="root" password="123456" />
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!--
+		javaModelGenerator：指定javaBean的生成策略
+		targetPackage="test.model"：目标包名
+		targetProject="\MBGTestProject\src"：目标工程
+	-->
+		<javaModelGenerator targetPackage="com.zxd.forrun.pojo" targetProject=".\src\main\java\">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!-- sqlMapGenerator：sql映射生成策略： -->
+		<sqlMapGenerator targetPackage="mapper"  targetProject=".\src\main\resources\">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- javaClientGenerator:指定mapper接口所在的位置 -->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.zxd.forrun.mapper" targetProject=".\src\main\java\">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<table domainObjectName="Users" tableName="user"></table>
+		<!--<table domainObjectName="Role" tableName="role"></table>-->
+		<!--<table domainObjectName="PermissionRole" tableName="permission_role"></table>-->
+		<!--<table domainObjectName="Permission" tableName="permission"></table>-->
+		<!--<table domainObjectName="UserRole" tableName="user_role"></table>-->
+
+		<!--<table domainObjectName="Section" tableName="section"></table>-->
+		<!--<table domainObjectName="User" tableName="user"></table>-->
+		<!--<table domainObjectName="Post" tableName="post"></table>-->
+		<!--<table domainObjectName="TopicCategory" tableName="topic_category"></table>-->
+		<!--<table domainObjectName="Topic" tableName="topic"></table>-->
+
+
+		<!--<table tableName="album" domainObjectName="Album"></table>-->
+		<!--<table tableName="photo" domainObjectName="Photo"></table>-->
+
+		<!--<table tableName="message" domainObjectName="Message"></table>-->
+		<!--<table tableName="collection" domainObjectName="Collection"></table>-->
+	</context>
+</generatorConfiguration>
